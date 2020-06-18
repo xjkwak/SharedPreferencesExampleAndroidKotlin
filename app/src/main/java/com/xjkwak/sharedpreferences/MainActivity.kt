@@ -21,7 +21,8 @@ class MainActivity : AppCompatActivity() {
     private fun loadName() {
         val myPreferences: SharedPreferences = getSharedPreferences("com.xjkwak.mydata", Context.MODE_PRIVATE)
         if (myPreferences.contains("personName")) {
-            editTextTextPersonName.setText(myPreferences.getString("personName", ""))
+            val value = myPreferences.getString("personName", "")
+            editTextTextPersonName.setText(value)
             Toast.makeText(this, "Nombre recuperado!", Toast.LENGTH_LONG).show()
         }
     }
@@ -40,8 +41,5 @@ class MainActivity : AppCompatActivity() {
         else {
             Toast.makeText(this, "Por favor ingresa tu nombre!", Toast.LENGTH_LONG).show()
         }
-
     }
-
-
 }
