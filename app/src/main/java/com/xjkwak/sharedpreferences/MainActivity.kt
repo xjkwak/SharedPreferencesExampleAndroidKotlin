@@ -13,18 +13,34 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        loadName()
+        loadData()
 
         buttonSave.setOnClickListener { saveName() }
     }
 
-    private fun loadName() {
+    private fun loadData() {
         val myPreferences: SharedPreferences = getSharedPreferences("com.xjkwak.mydata", Context.MODE_PRIVATE)
         if (myPreferences.contains("personName")) {
             val value = myPreferences.getString("personName", "")
-            editTextTextPersonName.setText(value)
-            Toast.makeText(this, "Nombre recuperado!", Toast.LENGTH_LONG).show()
+            editTextName.setText(value)
         }
+
+        if (myPreferences.contains("personAge")) {
+            val value = myPreferences.getInt("personAge", 0)
+            editTextAge.setText(value.toString())
+        }
+
+        if (myPreferences.contains("personMale")) {
+            val value = myPreferences.getBoolean("personMale", false)
+            radioButtonMale.isChecked = value
+        }
+
+        if (myPreferences.contains("personFemale")) {
+            val value = myPreferences.getBoolean("personFemale", false)
+            radioButtonFemale.isChecked = value
+        }
+
+        Toast.makeText(this, "Datos recuperados!", Toast.LENGTH_LONG).show()
     }
 
     private fun saveName() {
@@ -33,13 +49,16 @@ class MainActivity : AppCompatActivity() {
         val editor: SharedPreferences.Editor = (myPreferences as SharedPreferences).edit()
 
 
-        if (!TextUtils.isEmpty(editTextTextPersonName.text)) {
-            editor.putString("personName", editTextTextPersonName.text.toString())
-            editor.commit()
-            Toast.makeText(this, "Nombre guardado!", Toast.LENGTH_LONG).show()
+        if (!TextUtils.isEmpty(editTextName.text)) {
+            editor.putString("personName", editTextName.text.toString())
         }
-        else {
-            Toast.makeText(this, "Por favor ingresa tu nombre!", Toast.LENGTH_LONG).show()
+        if (!TextUtils.isEmpty(editTextAge.text)) {
+            editor.putInt("personAge", editTextAge.text.toString().toInt())
         }
+
+        editor.putBoolean("personMale", radioButtonMale.isChecked)
+        editor.putBoolean("personFemale", radioButtonFemale.isChecked)
+        editor.commit()
+
     }
 }
